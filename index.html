@@ -1,46 +1,66 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#101318">
-<title>DF Gunsmith</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0d1117"><title>DF GUNSMITH</title>
 <style>
-:root{color-scheme:dark;--bg:#101318;--panel:#191f28;--line:#303946;--muted:#9aa7b7;--accent:#d5ff45}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f4f6f8;font:15px system-ui,sans-serif}
-header{padding:22px max(18px,calc((100% - 1100px)/2));border-bottom:1px solid var(--line);background:#151a21}
-h1{margin:0;font-size:22px;letter-spacing:.08em}header p{color:var(--muted);margin:6px 0 0}
-main{max-width:1100px;margin:auto;padding:22px 18px}.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
-input,select{background:var(--panel);border:1px solid var(--line);color:white;border-radius:10px;padding:12px;font:inherit}
-input{flex:1;min-width:180px}.status{color:var(--muted);margin:12px 0}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:130px}
-.card h2{font-size:16px;margin:0 0 8px}.card p{color:var(--muted);font-size:13px;margin:0}
-.tag{display:inline-block;color:var(--accent);font-size:11px;border:1px solid #647a25;border-radius:20px;padding:3px 8px;margin-bottom:10px}
-footer{max-width:1100px;margin:24px auto;padding:0 18px 30px;color:var(--muted);font-size:12px}
-</style>
-</head>
+:root{color-scheme:dark;--bg:#0d1117;--panel:#151c25;--panel2:#1b2531;--line:#2b3948;--muted:#93a4b7;--text:#edf3f8;--lime:#d7ff4f;--red:#ff7777}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -25%,#263341 0,var(--bg) 55%);color:var(--text);font:14px/1.5 system-ui,-apple-system,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}
+.top{position:sticky;top:0;z-index:5;background:#0d1117ed;backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:14px max(16px,calc((100% - 1200px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-weight:900;letter-spacing:.12em;font-size:17px}.brand b{color:var(--lime)}.sub{color:var(--muted);font-size:11px}
+main{max-width:1200px;margin:auto;padding:20px 16px 48px}.hero{display:flex;align-items:end;justify-content:space-between;gap:15px;margin-bottom:18px}.hero h1{font-size:clamp(24px,4vw,36px);line-height:1.1;margin:0;letter-spacing:-.04em}.hero p{color:var(--muted);margin:8px 0 0}
+.layout{display:grid;grid-template-columns:minmax(260px,330px) minmax(0,1fr);gap:16px}.panel{background:linear-gradient(160deg,#19222d,#121821);border:1px solid var(--line);border-radius:16px;overflow:hidden}.panelHead{padding:14px 16px;border-bottom:1px solid var(--line);font-weight:800;display:flex;align-items:center;justify-content:space-between}
+.weaponList{max-height:72vh;overflow:auto;padding:10px}.search{width:100%;background:#0d131b;border:1px solid var(--line);border-radius:10px;color:var(--text);padding:12px;outline:none}.weapon{display:flex;gap:12px;align-items:center;text-align:left;width:100%;padding:10px;margin:4px 0;background:transparent;border:1px solid transparent;border-radius:12px;color:var(--text)}.weapon:hover,.weapon.active{background:#25313e;border-color:#526277}.weapon img{width:66px;height:54px;object-fit:contain}.weapon strong{display:block;font-size:13px}.weapon small{color:var(--muted)}
+.right{min-width:0}.gunHero{display:flex;align-items:center;gap:18px;padding:16px}.gunHero img{width:150px;height:116px;object-fit:contain}.gunHero h2{margin:0 0 5px;font-size:22px}.gunHero p{margin:0;color:var(--muted);font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:0 14px 14px}.stat{background:#0f151d;border:1px solid var(--line);border-radius:10px;padding:10px}.stat span{display:block;color:var(--muted);font-size:11px}.stat strong{font-size:18px}
+.builder{margin-top:14px}.tabs{display:flex;gap:7px;overflow:auto;padding:12px;border-bottom:1px solid var(--line)}.tab{white-space:nowrap;background:#101720;border:1px solid var(--line);color:#bac6d2;padding:8px 11px;border-radius:9px}.tab.active{background:var(--lime);color:#11180a;border-color:var(--lime);font-weight:800}
+.attachmentTools{display:flex;gap:8px;padding:12px}.attachmentTools input{flex:1;min-width:0}.attachGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;padding:0 12px 14px;max-height:520px;overflow:auto}
+.attach{border:1px solid var(--line);border-radius:12px;padding:10px;background:#111821;min-width:0}.attach.selected{border-color:var(--lime);box-shadow:inset 0 0 0 1px var(--lime)}.attach img{width:100%;height:72px;object-fit:contain}.attach h3{font-size:12px;line-height:1.35;min-height:32px;margin:5px 0}.attach p{font-size:10px;color:var(--muted);margin:4px 0;min-height:26px}.attach button{width:100%;border:0;border-radius:8px;padding:8px;background:#273443;color:white;font-weight:700}.attach.selected button{background:var(--lime);color:#111}
+.bottom{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.selectedBox{padding:14px}.selectedList{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.chip{font-size:11px;background:#283443;border:1px solid #425267;border-radius:30px;padding:6px 9px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.action{background:#293646;border:1px solid #46586d;color:white;border-radius:9px;padding:9px 12px}.action.primary{background:var(--lime);border-color:var(--lime);color:#111;font-weight:900}.note{font-size:11px;color:var(--muted);padding:12px 15px;border-top:1px solid var(--line)}.empty{padding:25px;color:var(--muted);text-align:center}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.weaponList{max-height:250px}.stats{grid-template-columns:repeat(2,1fr)}.gunHero img{width:110px}.bottom{grid-template-columns:1fr}.top{padding-top:calc(12px + env(safe-area-inset-top))}}
+</style></head>
 <body>
-<header><h1>DELTA FORCE / GUNSMITH</h1><p>무기 데이터베이스 · 한국어 인터페이스</p></header>
+<header class="top"><div><div class="brand">DELTA <b>FORCE</b> / GUNSMITH</div><div class="sub">WEAPON CUSTOMIZATION DATABASE</div></div><div class="sub" id="loadState">데이터 연결 중…</div></header>
 <main>
-<div class="tools"><input id="search" placeholder="총기 이름 검색…"><select id="sort"><option value="all">전체 무기</option></select></div>
-<div id="status" class="status">무기 데이터를 불러오는 중입니다…</div>
-<section id="weapons" class="grid"></section>
-</main>
-<footer>커뮤니티 데이터 기반 프로토타입입니다. 게임 내 패치 및 장착 호환성과 차이가 있을 수 있습니다.</footer>
+<section class="hero"><div><h1>나만의 총기를<br>세팅하세요.</h1><p>무기를 선택하고 부착물을 조합해 보세요.</p></div></section>
+<div class="layout">
+<aside class="panel"><div class="panelHead">무기 선택 <span class="sub" id="gunCount">—</span></div><div style="padding:10px 10px 0"><input class="search" id="gunSearch" placeholder="총기 이름 검색…"></div><div class="weaponList" id="weaponList"><div class="empty">무기 데이터를 불러오는 중입니다.</div></div></aside>
+<section class="right">
+<div class="panel"><div class="gunHero"><img id="gunImage" alt="선택한 총기"><div><h2 id="gunName">총기를 선택해 주세요</h2><p id="gunDesc">데이터를 불러오는 중입니다.</p></div></div><div class="stats" id="stats"></div></div>
+<div class="panel builder"><div class="panelHead">부착물 선택 <span class="sub" id="attachCount">카테고리 선택</span></div><nav class="tabs" id="tabs"></nav><div class="attachmentTools"><input class="search" id="attachSearch" placeholder="부착물 이름 검색…"></div><div class="attachGrid" id="attachGrid"><div class="empty">총기를 먼저 선택해 주세요.</div></div><div class="note">주의: 공개 커뮤니티 데이터에는 부착물별 총기 호환 관계가 완전하게 제공되지 않습니다. 아래 목록은 카테고리별 데이터이며, 게임 내 장착 가능 여부를 반드시 확인해 주세요. 능력치는 데이터에 있는 수치만 합산한 참고값입니다.</div></div>
+<div class="bottom"><div class="panel selectedBox"><b>현재 장착한 부착물</b><div class="selectedList" id="selectedList"><span class="sub">선택된 부착물이 없습니다.</span></div></div><div class="panel selectedBox"><b>빌드 관리</b><div class="actions"><button class="action primary" id="saveBuild">빌드 저장</button><button class="action" id="copyBuild">빌드 복사</button><button class="action" id="clearBuild">초기화</button></div><div class="sub" id="saveState" style="margin-top:9px">저장한 빌드는 이 기기의 브라우저에 보관됩니다.</div></div></div>
+</section></div></main>
 <script>
-const DATA='https://raw.githubusercontent.com/jiansenc/DeltaForceData/main/public/json/gun/gunRifle.json';
-let weapons=[];
+const BASE='https://raw.githubusercontent.com/jiansenc/DeltaForceData/main/public/json/';
+const CATS=[
+ ['accMuzzle','총구','총구'],['accBarrel','총열','총열'],['accScope','조준경','瞄准镜'],['accForeGrip','전방 손잡이','前握把'],['accBackGrip','후방 손잡이','后握把'],['accStock','개머리판','枪托'],['accMagazine','탄창','弹匣'],['accHandGuard','핸드가드','护木'],['accFunctional','전술 장비','功能配件']
+];
+let guns=[],attachments={},selected={},gun=null,activeCat=CATS[0][0];
 const $=id=>document.getElementById(id);
-function unwrap(x){return x?.jData?.data?.data?.list||x?.data?.data?.list||x?.data?.list||x?.list||[]}
-function render(){
- const q=$('search').value.trim().toLowerCase();
- const filtered=weapons.filter(w=>(w.objectName||'').toLowerCase().includes(q));
- $('status').textContent=filtered.length+'개 무기 표시 중';
- $('weapons').innerHTML=filtered.map(w=>'<article class="card">'+(w.pic?'<img src="'+w.pic+'" alt="" style="width:100%;height:90px;object-fit:contain;margin-bottom:8px">':'')+'<span class="tag">WEAPON</span><h2>'+escapeHtml(w.objectName||'이름 미상')+'</h2><p>총기 데이터베이스</p></article>').join('')||'<p>검색 결과가 없습니다.</p>';
+const unpack=x=>x?.jData?.data?.data?.list||[];
+const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const statNames={meatHarm:'살상력',armorHarm:'방어구 피해',recoil:'반동 제어',control:'조작',stable:'안정성',hipShot:'지향 사격',fireSpeed:'연사 속도',capacity:'탄창 용량',shootDistance:'유효 사거리',muzzleVelocity:'탄속'};
+const accKeys={recoil:'recoil',controlSpeed:'control',controlStable:'stable',hipShot:'hipShot',bombCapacity:'capacity',shotDistancePercent:'shootDistance'};
+async function load(){
+ const jobs=[fetch(BASE+'gun/gunRifle.json').then(r=>{if(!r.ok)throw Error('무기 데이터 요청 실패');return r.json()})];
+ CATS.forEach(c=>jobs.push(fetch(BASE+'acc/'+c[0]+'.json').then(r=>{if(!r.ok)throw Error(c[1]+' 데이터 요청 실패');return r.json()})));
+ const all=await Promise.all(jobs);guns=unpack(all[0]);
+ CATS.forEach((c,i)=>attachments[c[0]]=unpack(all[i+1]));
+ $('gunCount').textContent=guns.length+'종';$('loadState').textContent='데이터 연결 완료';
+ renderGuns();renderTabs();if(guns.length)selectGun(guns[0]);
 }
-function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-$('search').addEventListener('input',render);
-fetch(DATA).then(r=>{if(!r.ok)throw Error('데이터 서버 응답 오류');return r.json()}).then(data=>{weapons=unwrap(data);if(!weapons.length)throw Error('무기 데이터 형식을 확인할 수 없습니다');render()}).catch(e=>$('status').textContent='데이터를 불러오지 못했습니다: '+e.message);
-</script>
-</body></html>
+function renderGuns(){const q=$('gunSearch').value.trim().toLowerCase();const arr=guns.filter(g=>(g.objectName||'').toLowerCase().includes(q));$('weaponList').innerHTML=arr.map(g=>'<button class="weapon '+(gun?.objectID===g.objectID?'active':'')+'" data-id="'+g.objectID+'"><img src="'+g.pic+'" alt=""><span><strong>'+safe(g.objectName)+'</strong><small>'+safe(g.secondClassCN||'무기')+'</small></span></button>').join('')||'<div class="empty">검색 결과가 없습니다.</div>';document.querySelectorAll('.weapon').forEach(b=>b.addEventListener('click',()=>selectGun(guns.find(g=>String(g.objectID)===b.dataset.id))))}
+function selectGun(g){gun=g;selected={};$('gunImage').src=g.pic||'';$('gunName').textContent=g.objectName;$('gunDesc').textContent=g.desc||'총기 기본 정보';renderGuns();renderStats();renderAttachments();renderSelected()}
+function renderTabs(){$('tabs').innerHTML=CATS.map(c=>'<button class="tab '+(activeCat===c[0]?'active':'')+'" data-cat="'+c[0]+'">'+c[1]+'</button>').join('');document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{activeCat=b.dataset.cat;$('attachSearch').value='';renderTabs();renderAttachments()}))}
+function effects(a){const d=a.accDetail||{};return [...(d.advantage?.effectList||[]),...(d.disadvantage?.effectList||[])].map(e=>e.value).join(' · ')||'상세 효과 정보 없음'}
+function renderAttachments(){if(!gun)return;const q=$('attachSearch').value.trim().toLowerCase();const arr=(attachments[activeCat]||[]).filter(a=>(a.objectName||'').toLowerCase().includes(q));$('attachCount').textContent=arr.length+'개 항목';$('attachGrid').innerHTML=arr.map(a=>{const yes=selected[activeCat]?.objectID===a.objectID;return '<article class="attach '+(yes?'selected':'')+'"><img src="'+(a.pic||'')+'" alt=""><h3>'+safe(a.objectName)+'</h3><p>'+safe(effects(a))+'</p><button data-id="'+a.objectID+'">'+(yes?'장착 해제':'장착하기')+'</button></article>'}).join('')||'<div class="empty">해당 부착물이 없습니다.</div>';document.querySelectorAll('.attach button').forEach(b=>b.addEventListener('click',()=>{const item=arr.find(a=>String(a.objectID)===b.dataset.id);if(selected[activeCat]?.objectID===item.objectID)delete selected[activeCat];else selected[activeCat]=item;renderAttachments();renderSelected();renderStats()}))}
+function renderSelected(){$('selectedList').innerHTML=Object.entries(selected).map(([k,a])=>'<span class="chip">'+safe(CATS.find(c=>c[0]===k)?.[1]||k)+': '+safe(a.objectName)+'</span>').join('')||'<span class="sub">선택된 부착물이 없습니다.</span>'}
+function renderStats(){if(!gun)return;const d=gun.gunDetail||{};const totals={};Object.keys(statNames).forEach(k=>totals[k]=Number(d[k]||0));Object.values(selected).forEach(a=>{const ad=a.accDetail||{};Object.entries(accKeys).forEach(([k,target])=>{if(ad[k]!=null)totals[target]=(totals[target]||0)+Number(ad[k])})});$('stats').innerHTML=['meatHarm','armorHarm','recoil','control','stable','hipShot','fireSpeed','capacity'].map(k=>'<div class="stat"><span>'+statNames[k]+'</span><strong>'+((totals[k]??0).toFixed?.(1).replace(/\.0$/,'')??totals[k])+'</strong></div>').join('')}
+function buildData(){return {weapon:gun?.objectName,weaponId:gun?.objectID,attachments:Object.fromEntries(Object.entries(selected).map(([k,a])=>[k,{id:a.objectID,name:a.objectName}]))}}
+$('gunSearch').addEventListener('input',renderGuns);$('attachSearch').addEventListener('input',renderAttachments);
+$('saveBuild').addEventListener('click',()=>{if(!gun)return;let all=JSON.parse(localStorage.getItem('df-builds')||'[]');all.unshift({...buildData(),savedAt:new Date().toISOString()});localStorage.setItem('df-builds',JSON.stringify(all.slice(0,30)));$('saveState').textContent='저장 완료 · 이 브라우저에 최대 30개 보관'});
+$('copyBuild').addEventListener('click',async()=>{if(!gun)return;const data=JSON.stringify(buildData(),null,2);try{await navigator.clipboard.writeText(data);$('saveState').textContent='빌드 정보를 복사했습니다.'}catch(e){$('saveState').textContent=data}});
+$('clearBuild').addEventListener('click',()=>{selected={};renderAttachments();renderSelected();renderStats();$('saveState').textContent='장착 부착물을 초기화했습니다.'});
+load().catch(e=>{$('loadState').textContent='데이터 오류';$('weaponList').innerHTML='<div class="empty">데이터를 불러오지 못했습니다.<br>'+safe(e.message)+'<br>잠시 후 새로고침해 주세요.</div>'});
+</script></body></html>
