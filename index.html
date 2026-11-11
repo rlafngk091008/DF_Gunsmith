@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101318">
+<title>DF Gunsmith</title>
+<style>
+:root{color-scheme:dark;--bg:#101318;--panel:#191f28;--line:#303946;--muted:#9aa7b7;--accent:#d5ff45}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f4f6f8;font:15px system-ui,sans-serif}
+header{padding:22px max(18px,calc((100% - 1100px)/2));border-bottom:1px solid var(--line);background:#151a21}
+h1{margin:0;font-size:22px;letter-spacing:.08em}header p{color:var(--muted);margin:6px 0 0}
+main{max-width:1100px;margin:auto;padding:22px 18px}.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+input,select{background:var(--panel);border:1px solid var(--line);color:white;border-radius:10px;padding:12px;font:inherit}
+input{flex:1;min-width:180px}.status{color:var(--muted);margin:12px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:130px}
+.card h2{font-size:16px;margin:0 0 8px}.card p{color:var(--muted);font-size:13px;margin:0}
+.tag{display:inline-block;color:var(--accent);font-size:11px;border:1px solid #647a25;border-radius:20px;padding:3px 8px;margin-bottom:10px}
+footer{max-width:1100px;margin:24px auto;padding:0 18px 30px;color:var(--muted);font-size:12px}
+</style>
+</head>
+<body>
+<header><h1>DELTA FORCE / GUNSMITH</h1><p>무기 데이터베이스 · 한국어 인터페이스</p></header>
+<main>
+<div class="tools"><input id="search" placeholder="총기 이름 검색…"><select id="sort"><option value="all">전체 무기</option></select></div>
+<div id="status" class="status">무기 데이터를 불러오는 중입니다…</div>
+<section id="weapons" class="grid"></section>
+</main>
+<footer>커뮤니티 데이터 기반 프로토타입입니다. 게임 내 패치 및 장착 호환성과 차이가 있을 수 있습니다.</footer>
+<script>
+const DATA='https://raw.githubusercontent.com/jiansenc/DeltaForceData/main/public/json/gun/gunRifle.json';
+let weapons=[];
+const $=id=>document.getElementById(id);
+function unwrap(x){return x?.jData?.data?.data?.list||x?.data?.data?.list||x?.data?.list||x?.list||[]}
+function render(){
+ const q=$('search').value.trim().toLowerCase();
+ const filtered=weapons.filter(w=>(w.objectName||'').toLowerCase().includes(q));
+ $('status').textContent=filtered.length+'개 무기 표시 중';
+ $('weapons').innerHTML=filtered.map(w=>'<article class="card">'+(w.pic?'<img src="'+w.pic+'" alt="" style="width:100%;height:90px;object-fit:contain;margin-bottom:8px">':'')+'<span class="tag">WEAPON</span><h2>'+escapeHtml(w.objectName||'이름 미상')+'</h2><p>총기 데이터베이스</p></article>').join('')||'<p>검색 결과가 없습니다.</p>';
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+$('search').addEventListener('input',render);
+fetch(DATA).then(r=>{if(!r.ok)throw Error('데이터 서버 응답 오류');return r.json()}).then(data=>{weapons=unwrap(data);if(!weapons.length)throw Error('무기 데이터 형식을 확인할 수 없습니다');render()}).catch(e=>$('status').textContent='데이터를 불러오지 못했습니다: '+e.message);
+</script>
+</body></html>
